@@ -1,0 +1,17 @@
+
+
+[server]
+enableStaticServing = true
+
+
+[theme]
+primaryColor = "#083266"  # navy blue
+
+# doesn't seem to work https://docs.streamlit.io/develop/concepts/configuration/theming-customize-fonts, so we inject css instead
+# font="proxima-nova"
+
+
+# [[theme.fontFaces]]
+# family="proxima-nova"
+# url="app/static/fonts/Proxima Nova Semibold.ttf'"
+# style="normal"
