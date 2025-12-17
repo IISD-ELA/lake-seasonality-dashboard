@@ -1,0 +1,31 @@
+IISD_COLOURS = {
+    "navy_blue": "#083266",
+    "light_blue": "#29C3EC",
+    "light_green": "#97C848",
+    "yellow": "#F7B43C",
+    "mint_green": "#5ABC8A",
+    "orange": "#F18920",
+    "red": "#E1472E",
+    "purple": "#992F87",
+    "dark_teal": "#074E63",
+    "dark_green": "#008852",
+    "light_grey": "#CED0D0",
+    "dark_grey": "#8E9192",
+    "white": "#FFFFFF",
+    "black": "#000000",
+}
+
+IISD_SEQ = [
+    IISD_COLOURS["navy_blue"],
+    IISD_COLOURS["light_blue"],
+    IISD_COLOURS["light_green"],
+    IISD_COLOURS["yellow"],
+    IISD_COLOURS["mint_green"],
+    IISD_COLOURS["orange"],
+    IISD_COLOURS["red"],
+    IISD_COLOURS["purple"],
+    IISD_COLOURS["dark_teal"],
+    IISD_COLOURS["dark_green"],
+    IISD_COLOURS["dark_grey"],
+    IISD_COLOURS["light_grey"],
+]

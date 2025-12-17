@@ -1,0 +1,60 @@
+
+@font-face{
+  font-family:'Proxima Nova';
+  src: url('static/fonts/Proxima Nova Semibold.ttf') format('truetype');
+  font-weight:600; font-style:normal; font-display:swap;
+}
+@font-face{
+  font-family:'Georgia Local';
+  src: url('static/fonts/Georgia.ttf') format('truetype');
+  font-weight:400; font-style:normal; font-display:swap;
+}
+
+
+/* Headers use Proxima Nova and are IISD Navy */
+.stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6,
+.block-container h1, .block-container h2, .block-container h3,
+.block-container h4, .block-container h5, .block-container h6{
+  font-family:'Proxima Nova', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight:600 !important;
+  color: #083266 !important;
+  
+  font-size: 48px !important;
+}
+/* All other text uses Georgia Local */
+.stApp, .block-container,
+[data-testid="stAppViewContainer"],
+[data-testid="stMarkdownContainer"], .stMarkdown, .stMarkdown p, .stMarkdown li,
+.stText, .stTextInput, .stSelectbox, .stRadio, .stSlider, .stMetric,
+.stButton > button, label, p, span, li{
+  /* font-family:'Georgia Local', Georgia, serif !important; */
+  font-family:'Proxima Nova', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+  font-weight:400 !important;
+  font-size: 22px !important;
+}
+
+/* Style the tab list container */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 10px; 
+    padding-top: 15px; 
+    padding-bottom: 15px; 
+}
+
+/* Style individual tabs */
+.stTabs [data-baseweb="tab"] {
+    height: 60px; 
+    font-size: 1.2rem; 
+    padding: 10px 20px; 
+    border-radius: 8px;
+}
+
+/* Style the selected tab */
+.stTabs [aria-selected="true"] {
+    background-color: #083266; 
+    color: white;
+}
+
+/* Style the tab content area */
+.stTabs [data-baseweb="tab-panel"] {
+    padding-top: 20px; 
+}
