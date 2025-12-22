@@ -11,6 +11,7 @@ FALL_RANGE = ("2000-09-01", "2000-11-17")
 WINTER_RANGE = ("2001-02-01", "2001-05-30")
 WEEK_MS = 7 * 24 * 60 * 60 * 1000
 
+
 def get_colour_from_years(
     years, seq=px.defaults.color_discrete_sequence, recent_first=True
 ):
@@ -19,6 +20,7 @@ def get_colour_from_years(
     yrs = sorted({int(y) for y in years}, reverse=recent_first)
     cmap = {str(y): seq[i % len(seq)] for i, y in enumerate(yrs)}
     return cmap
+
 
 def add_style_x(fig, start, end, tick0=None, tickangle=45, title=""):
     """shared x-axis style for date axes anchored to a dummy year, created using transform_dates()"""
@@ -171,7 +173,7 @@ def plot_thermocline(res: pd.DataFrame):
 def plot_air_temp(res: pd.DataFrame, ice_off_extremes=None, ice_off_dates=None):
     """
     plots average daily air temperature data (temp vs date), coloured by year, as a line graph
-    intent is for use with 2 years but will work with any long dataframe with multiple years of data 
+    intent is for use with 2 years but will work with any long dataframe with multiple years of data
     """
     # ensure year as str for consistent coloring
     if "yr" not in res.columns:
@@ -268,7 +270,7 @@ def plot_snow_depth(res: pd.DataFrame, ice_off_extremes=None, ice_off_dates=None
 def plot_lst(res: pd.DataFrame, measurement_type: str):
     """
     plots lake surface tep data (temp vs date), coloured by year, as a line graph
-    intent is for use with 2 years but will work with any long dataframe with multiple years of data 
+    intent is for use with 2 years but will work with any long dataframe with multiple years of data
     """
     # normalize x to md_dt based on requested granularity
     res = res.copy()
@@ -326,7 +328,7 @@ def plot_lst(res: pd.DataFrame, measurement_type: str):
 
 def stack_ice_figs(off_df, cover_df, on_df):
     """
-    - creates a vertically stacked dataframe given three datafraes, one for each of ice off dates, ice on dates, and ice duration dates 
+    - creates a vertically stacked dataframe given three datafraes, one for each of ice off dates, ice on dates, and ice duration dates
     """
 
     def prep(df):
@@ -335,7 +337,6 @@ def stack_ice_figs(off_df, cover_df, on_df):
             d["days_from_baseline"].lt(0).map({True: "negative", False: "positive"})
         )
         return d
-
 
     def add_row(d, row):
         for sign, sub in d.groupby("sign"):
@@ -409,13 +410,15 @@ def stack_ice_figs(off_df, cover_df, on_df):
         tickfont=dict(size=20, color="black"),
     )
     fig.update_xaxes(
-        showticklabels=False,
-        row=1,
-        col=1,
-        type="linear",
+        showticklabels=False, row=1, col=1, showline=False, mirror=False, type="linear"
     )
-    fig.update_xaxes(showticklabels=False, row=2, col=1, type="linear")
-
+    fig.update_xaxes(
+        showticklabels=False, row=2, col=1, type="linear", showline=False, mirror=False
+    )
+    fig.update_yaxes(
+        showline=False,
+        mirror=False,
+    )
     fig.update_layout(
         height=720,
         width=600,

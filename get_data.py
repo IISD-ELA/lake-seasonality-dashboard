@@ -9,7 +9,7 @@ import streamlit as st
 import pandas as pd
 
 
-API_BASE = "https://wlcjjmnlwe.execute-api.ca-central-1.amazonaws.com"
+API_BASE = "https://2eg4hzvtk8.execute-api.ca-central-1.amazonaws.com/dev"
 RIE_URL = "http://localhost:9000/2015-03-31/functions/function/invocations"
 
 
@@ -18,7 +18,13 @@ def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
     Fetch data from prod API or local RIE and return as DataFrame.
     """
     if prod:
-        r = requests.get(f"{API_BASE}/{endpoint.lstrip('/')}", params=params)
+        # needed for AWS WAF
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+        }
+        r = requests.get(
+            f"{API_BASE}/{endpoint.lstrip('/')}", params=params, headers=headers
+        )
     else:
         r = requests.post(
             RIE_URL, json={"version": "2.0", "queryStringParameters": params}
