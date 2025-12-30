@@ -1,7 +1,7 @@
 # About
 
 Author: Delvin So
-Last Updated: 2025-12-24
+Last Updated: 2025-12-30
 
 This repository contains the ELA Seasonality Dashboard, written in Python and using Streamlit as a dashboarding framework.
 
@@ -49,7 +49,11 @@ You should see something like the following; to open the dashboard click on the 
   Network URL: http://172.19.213.59:8501
 ```
 
+## Deployment
+
+Deployment should be done via [Streamlit Community Cloud](https://share.streamlit.io/) as a public app and is straightforward, all you need to do is provide the URL of this repo. The GitHub account `iisd-ela-data` is used to manage the app. To obtain access to the account, please contact Chris Hay (chay@iisd-ela.org).
 
 
+## Future Work
 
-
+- [ ] Change font of plotly figures to also use proxima

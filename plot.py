@@ -64,7 +64,7 @@ def add_style_layout(
         width=w,
         xaxis_title=x_title,
         yaxis_title=y_title,
-        legend_title="Year",
+        legend_title="",
         legend=dict(
             orientation="h", yanchor="top", y=legend_y, xanchor="center", x=0.5
         ),
@@ -156,7 +156,7 @@ def plot_thermocline(res: pd.DataFrame):
         markers=True,
         hover_data={
             "md_dt": False,
-            "date": "|%b %d, %Y",
+            "date": "|%b %d",
             "thermocline": ":.1f",
             "yr": True,
         },
@@ -190,7 +190,7 @@ def plot_air_temp(res: pd.DataFrame, ice_off_extremes=None, ice_off_dates=None):
         color_discrete_map=color_map,
         hover_data={
             "season_x": False,
-            "date": "|%b %d, %Y",
+            "date": "|%b %d",
             "avg_temp": ":.1f",
             "yr": True,
         },
@@ -243,7 +243,7 @@ def plot_snow_depth(res: pd.DataFrame, ice_off_extremes=None, ice_off_dates=None
         color_discrete_map=color_map,
         hover_data={
             "season_x": False,
-            "date": "|%b %d, %Y",
+            "date": "|%b %d",
             "snow_depth": ":.1f",
             "yr": True,
         },
@@ -297,7 +297,7 @@ def plot_lst(res: pd.DataFrame, measurement_type: str):
         markers=True,
         hover_data={
             "md_dt": False,
-            "date": "|%b %d, %Y",
+            "date": "|%b %d",
             "temp": ":.1f",
             "yr": True,
         },
@@ -326,7 +326,7 @@ def plot_lst(res: pd.DataFrame, measurement_type: str):
     return fig
 
 
-def stack_ice_figs(off_df, cover_df, on_df):
+def stack_ice_figs(off_df, on_df, cover_df):
     """
     - creates a vertically stacked dataframe given three datafraes, one for each of ice off dates, ice on dates, and ice duration dates
     """
@@ -338,20 +338,39 @@ def stack_ice_figs(off_df, cover_df, on_df):
         )
         return d
 
-    def add_row(d, row):
+    def add_row(d, row, annotate_date = True):
         for sign, sub in d.groupby("sign"):
-            fig.add_trace(
-                go.Bar(
-                    x=sub["yr"],
-                    y=sub["days_from_baseline"],
-                    name=sign,
-                    marker_color=color_map[sign],
-                    showlegend=(row == 1),
-                    hovertemplate="Year: %{x}<br>Days from Mean: %{y}",
-                ),
-                row=row,
-                col=1,
-            )
+            if annotate_date:
+                # annotates the date of ice on/off
+                fig.add_trace(
+                    go.Bar(
+                        x=sub["yr"],
+                        y=sub["days_from_baseline"],
+                        name=sign,
+                        marker_color=color_map[sign],
+                        showlegend=(row == 1),
+                        customdata=sub[['md']],
+                        hovertemplate="Date: %{customdata[0]}<br>Year: %{x}<br>Days from Mean: %{y}",
+
+                    ),
+                    row=row,
+                    col=1,
+                )
+            else:
+                # annotate the days instead of the date (assumes it's cover)
+                fig.add_trace(
+                    go.Bar(
+                        x=sub["yr"],
+                        y=sub["days_from_baseline"],
+                        name=sign,
+                        marker_color=color_map[sign],
+                        showlegend=(row == 1),
+                        hovertemplate="Days: %{customdata[0]}<br>Year: %{x}<br>Days from Mean: %{y}",
+                        customdata=sub[['days']],
+                    ),
+                    row=row,
+                    col=1,
+                )
         fig.update_yaxes(
             title_text="Days From Mean",
             row=row,
@@ -380,12 +399,12 @@ def stack_ice_figs(off_df, cover_df, on_df):
         shared_xaxes=True,
         vertical_spacing=0.04,
         row_heights=[0.33, 0.33, 0.34],
-        subplot_titles=("Ice Off", "Ice Cover Duration", "Ice On"),
+        subplot_titles=("Ice Off", "Ice On", "Ice Cover Duration"),
     )
 
-    add_row(off, 1)
-    add_row(on, 3)
-    add_row(cover, 2)
+    add_row(off, 1, True)
+    add_row(on, 2, True)
+    add_row(cover, 3, False)
 
     off["yr"] = off["yr"].astype(int)
     min_year = int(off["yr"].min())

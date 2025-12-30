@@ -147,6 +147,7 @@ This dashboard provides visualizations of ice off dates, lake turnover, air temp
 
 Specifically, knowing when ice off occurs on the lakes is important for planning the start of the field season, whereas lake turnover is important for planning fall sampling and for scientific research. 
 
+**All data presented is collected from LA 239 at IISD-ELA.**
 """
 
 
