@@ -3,6 +3,7 @@ Functions to fetch data from production (API) or local development (RIE) and ret
 """
 
 import json
+import os
 import requests
 from json.decoder import JSONDecodeError
 import streamlit as st
@@ -12,6 +13,17 @@ import pandas as pd
 API_BASE = "https://2eg4hzvtk8.execute-api.ca-central-1.amazonaws.com/dev"
 RIE_URL = "http://localhost:9000/2015-03-31/functions/function/invocations"
 
+def get_streamlit_waf_secret() -> str:
+    """
+    Fetch the shared WAF secret for Streamlit requests.
+    Prefer Streamlit secrets, fall back to environment variables.
+    """
+    try:
+        if "waf_streamlit_secret" in st.secrets:
+            return st.secrets["waf_streamlit_secret"]
+    except Exception:
+        pass
+    return os.getenv("STREAMLIT_WAF_SECRET") or os.getenv("WAF_STREAMLIT_SECRET") or ""
 
 def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
     """
@@ -20,7 +32,8 @@ def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
     if prod:
         # needed for AWS WAF
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "x-streamlit-secret": get_streamlit_waf_secret(),
         }
         r = requests.get(
             f"{API_BASE}/{endpoint.lstrip('/')}", params=params, headers=headers
