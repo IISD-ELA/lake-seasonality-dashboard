@@ -23,7 +23,7 @@ def get_streamlit_waf_secret() -> str:
             return st.secrets["waf_streamlit_secret"]
     except Exception:
         pass
-    return os.getenv("STREAMLIT_WAF_SECRET") or os.getenv("WAF_STREAMLIT_SECRET") or ""
+    return os.getenv("STREAMLIT_WAF_SECRET") or ""
 
 def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
     """
