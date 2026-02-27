@@ -99,7 +99,15 @@ DEBUG = False  # hard disable for prod
 def transform_dates(df, date_col="date"):
     """adds md (month day), md_dt (dummified month-day for plotting), yr columns to df based on date_col"""
 
-    df[date_col] = pd.to_datetime(df[date_col])
+    if not isinstance(df, pd.DataFrame) or df.empty or date_col not in df.columns:
+        return pd.DataFrame()
+
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col], errors="coerce")
+    df = df[df[date_col].notna()].copy()
+    if df.empty:
+        return df
+
     df["md"] = df[date_col].dt.strftime("%m-%d")
     df["md_dt"] = pd.to_datetime("2000-" + df["md"], format="%Y-%m-%d")
     df["yr"] = pd.to_datetime(df[date_col].dt.year).astype("int").astype("str")
@@ -135,6 +143,10 @@ def transform_cover(df):
     return df
 
 
+def has_columns(df, cols):
+    return isinstance(df, pd.DataFrame) and all(c in df.columns for c in cols)
+
+
 ######################################################################################################################################################
 
 
@@ -167,7 +179,10 @@ ice_off_tab, lake_turnover_tab = st.tabs(["Ice Off (Spring)", "Lake Turnover (Fa
 
 # static data
 ice_off_extremes = get_ice_off_data(kind="extremes")
-ice_off_extremes = transform_dates(ice_off_extremes, "activity_start_date")
+if has_columns(ice_off_extremes, ["activity_start_date"]):
+    ice_off_extremes = transform_dates(ice_off_extremes, "activity_start_date")
+else:
+    ice_off_extremes = pd.DataFrame()
 
 
 with ice_off_tab:
@@ -216,17 +231,32 @@ with ice_off_tab:
                 st.session_state["years_confirmed"] = (pd.Timestamp.now().year, chosen)
 
         ice_off_dates = get_ice_off_data(years=st.session_state["years_confirmed"])
-        ice_off_dates = transform_dates(ice_off_dates, "date")
+        if has_columns(ice_off_dates, ["date"]) and not ice_off_dates.empty:
+            ice_off_dates = transform_dates(ice_off_dates, "date")
+        else:
+            ice_off_dates = pd.DataFrame()
 
         snow = get_snow_depth_data(years=st.session_state["years_confirmed"])
         air = get_air_temp_data(years=st.session_state["years_confirmed"])
 
-        snow = transform_dates(snow)
-        air = transform_dates(air)
+        if (
+            has_columns(snow, ["date", "snow_depth"])
+            and has_columns(air, ["date", "avg_temp"])
+            and not snow.empty
+            and not air.empty
+        ):
+            snow = transform_dates(snow)
+            air = transform_dates(air)
 
-        fig = stack_snow_and_air(snow, air, ice_off_extremes, ice_off_dates)
-
-        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
+            if not snow.empty and not air.empty:
+                fig = stack_snow_and_air(snow, air, ice_off_extremes, ice_off_dates)
+                st.plotly_chart(
+                    fig, use_container_width=True, config={"displayModeBar": False}
+                )
+            else:
+                st.info("Snow depth and air temperature data are unavailable.")
+        else:
+            st.info("Snow depth and air temperature data are unavailable.")
 
     with cols[1].container(border=True, height="stretch"):
         "### Ice Dates and Cover Analysis"
@@ -263,14 +293,19 @@ with lake_turnover_tab:
         "#### Thermocline (m)"
 
         tcl = get_thermocline_data(prod=True)
-        tcl = transform_dates(tcl, "date")
+        if has_columns(tcl, ["date", "thermocline"]) and not tcl.empty:
+            tcl = transform_dates(tcl, "date")
+        else:
+            tcl = pd.DataFrame()
 
-        if DEBUG:
+        if DEBUG and not tcl.empty:
             st.dataframe(tcl.sort_values("md").head(5))
 
-        fig = plot_thermocline(tcl)
-
-        st.plotly_chart(fig, use_container_width=True)
+        if not tcl.empty:
+            fig = plot_thermocline(tcl)
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.info("Thermocline data is unavailable.")
 
     with cols[1].container(border=True, height="stretch"):
 
