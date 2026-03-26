@@ -59,7 +59,7 @@ def fetch_df(endpoint: str, params: dict, prod: bool = False) -> pd.DataFrame:
 
 
 @st.cache_data()
-def get_lst_data(measurement_type: str, prod: bool = True) -> pd.DataFrame:
+def get_lst_data(measurement_type: str, prod: bool = False) -> pd.DataFrame:
     """
     lake surface temperature: defaults to past 5 years as no date range specified, for September to November.
     measurement_type: 'daily' or 'hourly'
@@ -82,7 +82,7 @@ def get_lst_data(measurement_type: str, prod: bool = True) -> pd.DataFrame:
 
 @st.cache_data()
 def get_ice_off_data(
-    prod: bool = True, years: list[int] = [], kind: str = "off"
+    prod: bool = False, years: list[int] = [], kind: str = "off"
 ) -> pd.DataFrame:
     """
     ice endpoints:
@@ -104,7 +104,7 @@ def get_ice_off_data(
 
 
 @st.cache_data()
-def get_snow_depth_data(prod: bool = True, years: list[int] = []) -> pd.DataFrame:
+def get_snow_depth_data(prod: bool = False, years: list[int] = []) -> pd.DataFrame:
     """
     Fetches snow depth for given two years with months filter, hard coded for February to May.
     years: list of years to filter on (only first two used)
@@ -124,7 +124,7 @@ def get_snow_depth_data(prod: bool = True, years: list[int] = []) -> pd.DataFram
 
 
 @st.cache_data()
-def get_air_temp_data(prod: bool = True, years: list[int] = []) -> pd.DataFrame:
+def get_air_temp_data(prod: bool = False, years: list[int] = []) -> pd.DataFrame:
     """
     Fetches daily air temps for given two years with months filter, hard coded for February to May.
     years: list of years to filter on (only first two used)
@@ -144,7 +144,7 @@ def get_air_temp_data(prod: bool = True, years: list[int] = []) -> pd.DataFrame:
 
 
 @st.cache_data()
-def get_thermocline_data(prod: bool = True) -> pd.DataFrame:
+def get_thermocline_data(prod: bool = False) -> pd.DataFrame:
     """
     Fetches last 5 years of thermocline data (default;no date range specified) for September to November.
     """
