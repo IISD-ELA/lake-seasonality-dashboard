@@ -38,12 +38,16 @@ def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
         r = requests.get(
             f"{API_BASE}/{endpoint.lstrip('/')}", params=params, headers=headers
         )
+        
     else:
         r = requests.post(
             RIE_URL, json={"version": "2.0", "queryStringParameters": params}
         )
     r.raise_for_status()
     j = r.json()
+    print("RAW RESPONSE:", j)
+    print("STATUS:", r.status_code)
+    print("TEXT:", r.text)
 
     # local rie responses wraps the payload in {'body': '<json string>'} so it needs to be loaded
     payload = j.get("body") if isinstance(j, dict) and "body" in j else j
