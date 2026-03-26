@@ -25,7 +25,7 @@ def get_streamlit_waf_secret() -> str:
         pass
     return os.getenv("STREAMLIT_WAF_SECRET") or ""
 
-def fetch_df(endpoint: str, params: dict, prod: bool = True) -> pd.DataFrame:
+def fetch_df(endpoint: str, params: dict, prod: bool = False) -> pd.DataFrame:
     """
     Fetch data from prod API or local RIE and return as DataFrame.
     """
