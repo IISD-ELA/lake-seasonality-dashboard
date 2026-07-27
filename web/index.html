@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="IISD Experimental Lakes Area seasonality dashboard"
+    >
+    <title>ELA Seasonality Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script defer src="/vendor/plotly.min.js"></script>
+    <script defer src="/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <img
+        class="brand-logo"
+        src="/assets/images/iisd-ela-logo-2019.jpg"
+        alt="IISD Experimental Lakes Area"
+      >
+      <h1>ELA Seasonality Dashboard</h1>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="about-title">
+        <h2 id="about-title">About</h2>
+        <p>
+          This dashboard provides visualizations of ice off dates, lake
+          turnover, air temperature, snow depth, and thermocline data collected
+          at the ELA to help researchers and staff plan their field activities
+          and understand seasonal patterns in the lakes.
+        </p>
+        <p>
+          Knowing when ice off occurs is important for planning the start of
+          the field season, while lake turnover is important for fall sampling
+          and scientific research.
+        </p>
+        <p><strong>All data presented is collected from LA 239 at IISD-ELA.</strong></p>
+
+        <h2>Data Updates</h2>
+        <p>The dashboard updates automatically with the database:</p>
+        <ul>
+          <li>
+            Snow depth and air temperature comparisons use the current year
+            as soon as data is available.
+          </li>
+          <li>
+            Ice date analysis includes new annual observations when they are
+            added to the database.
+          </li>
+          <li>
+            Thermocline and lake surface temperature use the latest five years
+            of available data.
+          </li>
+        </ul>
+      </section>
+
+      <div class="tabs" role="tablist" aria-label="Season">
+        <button
+          id="spring-tab"
+          class="tab-button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="spring-panel"
+          data-testid="spring-tab"
+        >
+          Ice Off (Spring)
+        </button>
+        <button
+          id="fall-tab"
+          class="tab-button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="fall-panel"
+          data-testid="fall-tab"
+        >
+          Lake Turnover (Fall)
+        </button>
+      </div>
+
+      <section
+        id="spring-panel"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="spring-tab"
+        data-testid="spring-panel"
+      >
+        <div class="spring-grid">
+          <article class="panel">
+            <div class="panel-heading comparison-heading">
+              <div>
+                <h2>Snow Depth and Air Temperature Comparisons</h2>
+                <p>
+                  The figure compares a selected year against the current year
+                  <span data-current-year></span>. If current-year data is not
+                  yet available, only the selected comparison year is shown.
+                </p>
+              </div>
+              <form id="year-picker" class="year-picker" data-testid="year-picker">
+                <label for="comparison-year">Pick a year</label>
+                <select id="comparison-year" name="comparison_year"></select>
+                <button type="submit">Confirm</button>
+              </form>
+            </div>
+            <div
+              id="ice-off-status"
+              class="status"
+              role="status"
+              aria-live="polite"
+            >
+              Loading snow and air temperature data...
+            </div>
+            <div
+              id="ice-off-chart"
+              class="chart chart-tall"
+              data-testid="ice-off-chart"
+            ></div>
+          </article>
+
+          <article class="panel">
+            <h2>Ice Dates and Cover Analysis</h2>
+            <p>
+              Days from the historical mean for ice off, ice cover duration,
+              and ice on dates from 1969 to <span data-current-year></span>,
+              where data is available.
+            </p>
+            <div
+              id="ice-history-status"
+              class="status"
+              role="status"
+              aria-live="polite"
+            >
+              Loading ice history data...
+            </div>
+            <div
+              id="ice-history-chart"
+              class="chart chart-tall"
+              data-testid="ice-history-chart"
+            ></div>
+          </article>
+        </div>
+      </section>
+
+      <section
+        id="fall-panel"
+        class="tab-panel"
+        role="tabpanel"
+        aria-labelledby="fall-tab"
+        data-testid="fall-panel"
+        hidden
+      >
+        <div class="fall-grid">
+          <article class="panel">
+            <h2>Thermocline (m)</h2>
+            <div
+              id="thermocline-status"
+              class="status"
+              role="status"
+              aria-live="polite"
+            ></div>
+            <div
+              id="thermocline-chart"
+              class="chart"
+              data-testid="thermocline-chart"
+            ></div>
+          </article>
+
+          <article class="panel">
+            <h2>Lake Surface Temperature (&deg;C)</h2>
+            <div
+              id="lake-temperature-status"
+              class="status"
+              role="status"
+              aria-live="polite"
+            ></div>
+            <div
+              id="lake-temperature-chart"
+              class="chart"
+              data-testid="lake-temperature-chart"
+            ></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

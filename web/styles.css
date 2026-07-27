@@ -1,0 +1,295 @@
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("/assets/fonts/proxima-nova-regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("/assets/fonts/proxima-nova-semibold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: light;
+  font-family: "Proxima Nova", Arial, sans-serif;
+  color: #17202a;
+  background: #ffffff;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #ffffff;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  padding: 24px 32px 18px;
+  border-bottom: 4px solid #16a6b6;
+}
+
+.brand-logo {
+  width: 190px;
+  height: auto;
+  object-fit: contain;
+}
+
+h1,
+h2 {
+  color: #083266;
+  letter-spacing: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 600;
+}
+
+h2 {
+  margin: 0 0 10px;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+p,
+li,
+label,
+select,
+button {
+  font-size: 18px;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+p {
+  margin: 0 0 14px;
+}
+
+main {
+  width: 100%;
+  padding: 24px 32px 40px;
+}
+
+.intro {
+  max-width: 1500px;
+  margin-bottom: 24px;
+}
+
+.intro ul {
+  margin: 0;
+  padding-left: 24px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  padding: 16px 0;
+  border-bottom: 1px solid #cbd5df;
+}
+
+.tab-button {
+  min-height: 48px;
+  padding: 10px 18px;
+  border: 1px solid #8da0b3;
+  border-radius: 6px;
+  color: #083266;
+  background: #eef1f3;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-button[aria-selected="true"] {
+  color: #ffffff;
+  border-color: #083266;
+  background: #083266;
+}
+
+.tab-button:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 3px solid #16a6b6;
+  outline-offset: 2px;
+}
+
+.tab-panel {
+  padding-top: 20px;
+}
+
+.spring-grid,
+.fall-grid {
+  display: grid;
+  align-items: stretch;
+  gap: 18px;
+}
+
+.spring-grid {
+  grid-template-columns: minmax(0, 3fr) minmax(390px, 2fr);
+}
+
+.fall-grid {
+  grid-template-columns: minmax(360px, 2fr) minmax(0, 3fr);
+}
+
+.panel {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #cbd5df;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.comparison-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 20px;
+  align-items: start;
+}
+
+.year-picker {
+  display: grid;
+  gap: 8px;
+}
+
+.year-picker label {
+  color: #083266;
+  font-weight: 600;
+}
+
+select {
+  width: 100%;
+  min-height: 44px;
+  padding: 7px 34px 7px 10px;
+  border: 1px solid #8da0b3;
+  border-radius: 5px;
+  color: #17202a;
+  background: #e2e5e7;
+}
+
+.year-picker button {
+  min-height: 44px;
+  border: 1px solid #083266;
+  border-radius: 5px;
+  color: #ffffff;
+  background: #083266;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.year-picker button:disabled,
+select:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.status {
+  min-height: 26px;
+  margin: 10px 0;
+  color: #52606d;
+}
+
+.status.info,
+.status.warning {
+  padding: 10px 12px;
+  border-left: 4px solid #16a6b6;
+  background: #eef6f7;
+}
+
+.status.warning {
+  border-left-color: #c4561c;
+  background: #fff2eb;
+}
+
+.chart {
+  width: 100%;
+  min-height: 430px;
+}
+
+.chart-tall {
+  min-height: 680px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 1050px) {
+  .spring-grid,
+  .fall-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .comparison-heading {
+    grid-template-columns: minmax(0, 1fr) 220px;
+  }
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 16px 14px;
+  }
+
+  .brand-logo {
+    width: 125px;
+  }
+
+  h1 {
+    font-size: 30px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  p,
+  li,
+  label,
+  select,
+  button {
+    font-size: 16px;
+  }
+
+  main {
+    padding: 18px 16px 30px;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tab-button {
+    width: 100%;
+    padding: 8px;
+  }
+
+  .comparison-heading {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 14px;
+  }
+
+  .chart,
+  .chart-tall {
+    min-height: 520px;
+  }
+}
