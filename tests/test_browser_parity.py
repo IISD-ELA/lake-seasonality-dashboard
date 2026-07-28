@@ -110,6 +110,27 @@ def test_aws_uses_the_streamlit_brand_logo(page):
     assert dimensions["width"] > dimensions["height"] * 2
 
 
+def test_plotly_chart_can_be_downloaded_as_png(page, tmp_path):
+    if APP_VARIANT != "aws":
+        pytest.skip("The AWS app owns its content security policy")
+
+    fall = page.get_by_role("tab", name="Lake Turnover (Fall)", exact=True)
+    fall.click()
+    chart = page.locator("#fall-panel .js-plotly-plot").nth(1)
+    chart.wait_for(state="visible", timeout=120_000)
+    chart.hover()
+
+    with page.expect_download(timeout=30_000) as download_info:
+        chart.locator(
+            '.modebar-btn[data-title="Download plot as a PNG"]'
+        ).click()
+
+    target = tmp_path / download_info.value.suggested_filename
+    download_info.value.save_as(target)
+    assert target.suffix == ".png"
+    assert target.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
+
+
 def test_hidden_charts_resize_when_their_tab_is_activated(page):
     if APP_VARIANT != "aws":
         pytest.skip("The AWS app owns tab activation and Plotly resizing")

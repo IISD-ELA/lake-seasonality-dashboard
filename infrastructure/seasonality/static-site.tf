@@ -39,9 +39,9 @@ resource "aws_cloudfront_response_headers_policy" "security" {
   name = "${local.name}-security-headers"
 
   security_headers_config {
-    # Plotly creates inline element styles while rendering and resizing charts.
+    # Plotly creates inline styles while rendering and blob images for PNG exports.
     content_security_policy {
-      content_security_policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors ${local.frame_ancestors}"
+      content_security_policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors ${local.frame_ancestors}"
       override                = true
     }
 
