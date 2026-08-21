@@ -1,7 +1,8 @@
 # ELA Seasonality Dashboard
 
-Author: Delvin So
-AWS port: IISD Data and Technology team
+**Authors:** Delvin So, Kiril Kirov  
+**AWS port:** IISD Data and Technology team  
+**Dashboard link:** [https://d2snty81k7uoqg.cloudfront.net/](https://d2snty81k7uoqg.cloudfront.net/) (may change in future)
 
 This repository contains the IISD Experimental Lakes Area seasonality
 dashboard. The production architecture is a static browser application backed
