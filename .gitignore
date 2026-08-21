@@ -1,6 +1,7 @@
 # Additional
 .ipynb_checkpoints
 .venv
+.test-venv
 *.code-workspace
 **ipynb
 old
@@ -16,6 +17,9 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+.terraform/
+*.tfstate
+*.tfstate.*
 develop-eggs/
 dist/
 downloads/
