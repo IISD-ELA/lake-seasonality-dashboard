@@ -195,3 +195,10 @@ The helper runs both suites even if one fails and prints each exit status. The
 unchanged Streamlit result is informational because its upstream LST failure is
 outside this migration; the helper returns nonzero only when the AWS suite
 fails. Screenshots are written to `build/test-artifacts/`.
+
+## Future Work
+
+- [ ] Use Proxima Nova in the Plotly figures.
+- [ ] Use white hover-tooltip text for dark-blue traces to improve contrast.
+- [ ] Add the Plotly figure action controls to the Ice Off (Spring) charts for
+  consistency with the Lake Turnover (Fall) charts.
