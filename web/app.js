@@ -84,7 +84,7 @@ async function loadIceOff(year) {
   yearPicker.querySelector("button").disabled = true;
   try {
     const data = await fetchJson(
-      `/api/ice-off?comparison_year=${encodeURIComponent(year)}`,
+      `./api/ice-off?comparison_year=${encodeURIComponent(year)}`,
     );
     if (renderFigure("ice-off-chart", data.figure, false)) {
       setStatus("ice-off-status", "");
@@ -109,7 +109,7 @@ async function loadIceOff(year) {
 
 async function loadIceHistory() {
   try {
-    const data = await fetchJson("/api/ice-history");
+    const data = await fetchJson("./api/ice-history");
     if (renderFigure("ice-history-chart", data.figure, false)) {
       setStatus("ice-history-status", "");
     } else {
@@ -139,7 +139,7 @@ async function loadLakeTurnover() {
     "Loading lake surface temperature data...",
   );
   try {
-    const data = await fetchJson("/api/lake-turnover");
+    const data = await fetchJson("./api/lake-turnover");
     if (renderFigure("thermocline-chart", data.thermocline_figure, true)) {
       setStatus("thermocline-status", "");
     } else {
